@@ -1,0 +1,30 @@
+GROUP BY 例子
+
+SELECT vend_id, COUNT(*) AS num_prods
+FROM products
+GROUP BY vend_id;
+对grouped的vend_id 进行分别聚集计算
+output：
+vend_id   num_prods
+1001              3
+1002              2
+1003              7
+1005              2
+
+几个关键点:
+**除聚集计算语句外，SELECT语句中的每个列都必须在GROUP BY子
+句中给出。
+**如果在GROUP BY子句中嵌套了分组，数据将在最后规定的分组上
+进行汇总。换句话说，在建立分组时，指定的所有列都一起计算
+（所以不能从个别的列取回数据）。
+**GROUP BY子句可以包含任意数目的列。
+**如果分组列中具有NULL值，则NULL将作为一个分组返回。如果列
+中有多行NULL值，它们将分为一组。
+**GROUP BY子句必须出现在WHERE子句之后，ORDER BY子句之前。
+
+使用ROLLUP， 可以得到到每个分组以及每个分组汇总级别（针对每个分组）的值
+SELECT year, country, product, SUM(profit) AS profit
+       FROM sales
+       GROUP BY year ASC, country ASC, product ASC WITH ROLLUP;
+简单的来说就是:对所有分级进行聚集计算，或者说对聚集计算进行iteration.
+详见例子https://dev.mysql.com/doc/refman/5.7/en/group-by-modifiers.html
