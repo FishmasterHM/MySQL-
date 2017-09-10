@@ -1,0 +1,2 @@
+convert（N,from_base,to_base)
+进制转换，数字N从from_base进制转换为to_base进制
