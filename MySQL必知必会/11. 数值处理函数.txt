@@ -1,0 +1,13 @@
+#只列出部分函数，熟悉的函数不再列出
+各种常规三角函数
+Abs(), EXP()， Sqrt() 
+
+Ceiling()
+向上取整
+
+convert（N,from_base,to_base)
+进制转换，数字N从from_base进制转换为to_base进制
+
+rand(N) 
+从[0,1)内取随机浮点数
+N可为空，如果指定N，N为Seed.
