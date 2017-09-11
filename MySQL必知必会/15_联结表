@@ -1,0 +1,25 @@
+15.1 联结 (join)
+
+主键(primary key, PRI) 唯一ID
+外键(foreign key, MUL) 外键为某个表中的一列, 它包含另一个表的主键值, 定义了两个表之间的关系.
+
+在14章的思考中自己已得出答案:
+SELECT vend_name, prod_name, prod_price
+FROM vendors, products
+WHERE vendors.vend_id = products.vend_id
+ORDER BY vend_name, prod_name;
+
+如果不进行WHERE语句, 则会返回迪卡尔积的联结类型
+即: 表内行互乘
+
+以上联结更为规范的表达为 内部联结:
+SELECT vend_name, prod_name, prod_price
+FROM vendors INNER JOIN products
+ ON vendors.vend_id = products.vend_id;
+
+多个表同理:
+SELECT vend_name, prod_name, prod_price, quantity
+FROM vendors, products, orderitems
+WHERE vendors.vend_id = products.vend_id 
+      AND orderitems.prod_id = products.prod_id;
+# ====>联结表越多 效率越低

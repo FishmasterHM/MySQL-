@@ -16,7 +16,8 @@ FROM orderitems
 WHERE orderitems.order_num = orders.order_num;*/
 
 #查询顾客名字,购买价格大于10的物品的总量
-SELECT cust_name, cust_city, All_sum
+
+/*SELECT cust_name, cust_city, All_sum
 FROM customers, (SELECT orders.cust_id, SUM(a_sum) AS All_sum
                  FROM (SELECT order_num, SUM(quantity) AS a_sum
                        FROM orderitems
@@ -24,4 +25,22 @@ FROM customers, (SELECT orders.cust_id, SUM(a_sum) AS All_sum
                        GROUP BY order_num) AS t1, orders
                  WHERE t1.order_num = orders.order_num
                  GROUP BY orders.cust_id) AS t2
-WHERE t2.cust_id = customers.cust_id;
+WHERE t2.cust_id = customers.cust_id;*/
+
+# Chapter 15 联结
+/*
+SELECT vend_name, prod_name, prod_price
+FROM vendors, products
+WHERE vendors.vend_id = products.vend_id;
+
+
+SELECT vend_name, prod_name, prod_price, quantity
+FROM vendors INNER JOIN products INNER JOIN orderitems
+ ON vendors.vend_id = products.vend_id 
+      AND orderitems.prod_id = products.prod_id;
+*/
+
+SELECT cust_name, customers.cust_id, orderitems.prod_id
+FROM customers, orders, orderitems
+WHERE customers.cust_id = orders.cust_id
+      AND orderitems.order_num = orders.order_num;
