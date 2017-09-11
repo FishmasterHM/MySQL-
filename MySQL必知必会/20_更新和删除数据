@@ -1,0 +1,29 @@
+#更新与删除数据
+
+UPDATE 特别需要注意过滤条件以免更新全部
+
+UPDATE customers
+SET cust_email = 'elmer@fudd.com'
+    cust_name 'The Fudds'
+
+WHERE cust_id = 10005
+
+UPDATE IGNORE customers .. 忽略错误
+删除某个列的值可以设置位NULL
+UPDATE customers
+SET CUST_EMAIL = null
+where CUST_ID = 10005;
+
+UPDATE SELECT 连用
+
+UPDATE A 
+SET A.prod_name = (SELECT B.prod_name
+    		   FROM B
+		   WHERE A.prod_id = B.prod_id)
+WHERE ...
+
+
+#删除数据(DELETE)
+删除整行, 删除单元格用UPDATE
+DELETE FROM customers
+WHERE cust_id = 10006;

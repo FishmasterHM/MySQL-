@@ -5,10 +5,10 @@ GROUP BY
 HAVING
 ORDER BY
 LIMIT
-LIKE 一般和通配连用 % _(单个字符)
-REGEXP 正则匹配
-BINARY 区分大小写 (中文)
-CONCAT() 连接字符串
+LIKE             一般和通配连用 % _(单个字符)
+REGEXP		 正则匹配
+BINARY		 区分大小写 (中文)
+CONCAT() 	 连接字符串
 
 DISTINCT
 DESC
@@ -25,3 +25,15 @@ UNION 连接SELECT语句
 Match() Against()
 中Match()指定被搜索的列,Against() 指定要使用的搜索表达式
 WITH QUERY EXPANSION
+
+INSERT (LOW PRIORITY) INTO ...()
+VALUE();
+可以添加LOW PRIORITY来降低INSERT语句的优先级
+
+UPDATE
+SET
+
+DELETE FROM table_name  删除整行
+WHERE ...
+
+TRUNCATE TABLE 删除整个表,但保留表本身

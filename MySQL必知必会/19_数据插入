@@ -1,0 +1,67 @@
+#数据插入
+插入数据(行)到数据库表中
+  插入完整的行
+  插入一行的一部分
+  插入多行
+  插入某些查询结果
+
+可以直接插入:
+INSERT INTO customers
+VALUES(NULL,
+       'Pep E. LaPew',
+       '100 Main Street',
+       'Los Angeles',
+       'CA',
+       '90046',
+       'USA',
+       NULL,
+       NULL):
+但必须按照定义列的顺序插入,如果列次序更变会造成麻烦
+==>更严谨的办法
+
+INSERT INTO customers(cust_name,
+                      cust_address,
+		      cust_city,
+		      cust_state,
+		      cust_zip
+		      cust_country,
+		      cust_contact,
+		      cust_email)
+VALUES(NULL,
+       'Pep E. LaPew',
+       '100 Main Street',
+       'Los Angeles',
+       'CA',
+       '90046',
+       'USA',
+       NULL,
+       NULL):
+
+必须一一对应,但部分值可以省略
+*该列定义允许NULL
+*在表定义中给出默认值
+
+插入多行
+VALUES(NULL,
+       'Pep E. LaPew',
+       '100 Main Street',
+       'Los Angeles',
+       'CA',
+       '90046',
+       'USA',
+       NULL,
+       NULL),
+       (NULL,
+        ...,
+	...,
+	...,
+	...
+        );
+
+插入检索出的数据:
+
+INSERT INTO customers(..,..)
+SELECT cust_id, cust_contact,...
+FROM custnew(another table);
+
+如果主键确保不重复(这里为cust_id) 则可以引用主键,重复可忽略自动填充
