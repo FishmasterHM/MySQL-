@@ -37,3 +37,14 @@ DELETE FROM table_name  删除整行
 WHERE ...
 
 TRUNCATE TABLE 删除整个表,但保留表本身
+
+last_insert_id()
+插入一条数据后获得该数据自增值 AUTO_INCREMENT
+
+添加外键
+ALTER TABLE ... CONSTRAINT name
+FOREIGN KEY ()
+REFERENCES name ()
+
+RENAME TABLE a TO b 重命名表
+DROP TABLE a        删除表

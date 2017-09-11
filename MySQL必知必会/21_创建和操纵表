@@ -1,0 +1,81 @@
+#创建和操纵表
+
+CREATE TABLE customers(
+  cust_id      int  NOT NULL AUTO_INCREMENT,
+  cust_name    char(50)  NOT NULL ,
+  cust_address char(50)  NULL ,
+  cust_city    char(50)  NULL ,
+  cust_state   char(5)   NULL ,
+  cust_zip     char(10)  NULL ,
+  cust_country char(50)  NULL ,
+  cust_contact char(50)  NULL ,
+  cust_email   char(255) NULL ,
+  PRIMARY KEY (cust_id)
+) ENGINE=InnoDB;
+
+format:
+int, char(), dicimal(a,b) a:小数点左边和右边可以存储的十进制数字的最大个数，最大精度38,
+ datetime, text, float, real
+
+
+再提主键:
+如果主键使用单个列,则它的值必须唯一。如果使用多个列,则
+这些列的组合值必须唯一。
+CREATE TABLE orderitems
+(
+  order_num  int          NOT NULL ,
+  order_item int          NOT NULL ,
+  prod_id    char(10)     NOT NULL ,
+  quantity   int          NOT NULL DEFAULT 1,
+  item_price decimal(8,2) NOT NULL ,
+  PRIMARY KEY (order_num, order_item)
+) ENGINE=InnoDB;
+
+last_insert_id()函数
+插入一条数据后获得该数据自增值 AUTO_INCREMENT
+
+****引擎***
+具体参阅
+http://dev.mysql.com/doc/refman/5.0/en/storage_engines.html。
+
+
+==>InnoDB是一个可靠的事务处理引擎(参见第26章)
+ ,它不支持全文本搜索;
+==> MEMORY在功能等同于MyISAM,但由于数据存储在
+内存(不是磁盘)中,速度很快(特别适合于临时表);
+==>MyISAM是一个性能极高的引擎, 它支持全文本搜
+索(参见第18章) ,但不支持事务处理。
+
+***外键不能跨引擎
+混用引擎类型有一个大缺陷。外键(用于强制实施引
+用完整性,如第1章所述)不能跨引擎,即使用一个引擎
+的表不能引用具有使用不同引擎的表的外键。
+
+
+##ALTER TABLE 更改表
+
+增加列:
+ALTER TABLE vendors
+ADD vend_phone CHAR(20);
+
+删除列:
+ALTER TABLE vendors
+DROP COLUMN vend_phone;
+
+添加外键:
+ALTER TABLE orderitems 
+ADD CONSTRAINT fk_orderitems_orders 
+FOREIGN KEY (order_num) 
+REFERENCES orders (order_num);
+改动表orderitems,增加名为fk_orderitems_orders的约束
+FOREIGN KEY外键 引用于 oders 表的 9(order_num)
+
+对单个表多次更改, 逗号连接
+对于复杂的更改有下列步骤:
+1.创建新表
+2.INSERT SELECT从旧表复制数据到新表
+3.检查新表
+4.重命名旧表
+5.用旧表的名字重命名新表
+6.重建触发器,储存过程,索引,外键,多主键
+
