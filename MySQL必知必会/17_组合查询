@@ -1,0 +1,21 @@
+#组合查询
+多数SQL查询都只包含从一个或多个表中返回数据的单条SELECT语
+句。MySQL也允许执行多个查询(多条SELECT语句) ,并将结果作为
+单个查询结果集返回。这些组合查询通常称为并(union)或复合查
+询(compound query) 。
+
+SELECT vend_id, prod_id, prod_price
+FROM products
+WHERE prod_price <= 5
+UNION
+SELECT end_id, prod_id, prod_price
+FROM products
+WHERE vend_id IN (1001,1002);
+
+==> 简单连接2个(或以上)SELECTY语句结果
+==> UNION中的每个查询必须包含相同的列、表达式或聚集函数
+==> 列数据类型必须兼容:类型不必完全相同,但必须是DBMS可以
+    隐含地转换的类型
+
+UNION自动取消(删除)重复的行, 使用UNION ALL可以取消删除
+UNION排序 ORDER BY 只能出现一次, i.e. 对结果集进行排序

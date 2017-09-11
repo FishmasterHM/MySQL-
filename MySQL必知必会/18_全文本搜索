@@ -1,0 +1,72 @@
+#全文本搜索
+FULLTEXT(note_text)
+不要在导入数据时使用FULLTEXT 更新索引要花时间,虽然
+不是很多,但毕竟要花时间。如果正在导入数据到一个新表,
+此时不应该启用FULLTEXT索引。应该首先导入所有数据,然
+后再修改表,定义FULLTEXT。这样有助于更快地导入数据(而
+且使索引数据的总时间小于在导入每行时分别进行索引所需
+的总时间)
+
+SELECT note_text
+FROM productnotes
+WHERE Match(note_text) Against('rabbit');
+
+==> Match()指定被搜索的列,Against() 指定要使用的搜索表达式。
+
+全文本搜索的一个重要部分就是对结果排序。具有较高等级的行先返回
+(关键词在前?)
+
+SELECT not_text, Match(note_text) Against('rabbit') AS rank
+FROM productnotes;
+
+将会输出所有行(因为没有WHERE), rank 表示全文本搜索计算出的等级
+值。等级由MySQL根据行中词的数目、唯一词的数目、整个索引中词的总
+数以及包含该词的行的数目计算出来
+
+#使用查询扩展
+
+SELECT not_text
+WHERE Match(note_text) Against('rabbit' WITH QUERY EXPANSION) 
+FROM productnotes;
+
+
+#布尔文本搜索
+要匹配的词/要排斥的词/排列提示(指定某些词比其他词更重要,更重要的词等级更高)
+表达式分组/另外内容
+==> 没有FULLTEXT()也可以使用
+
+SELECT not_text
+WHERE Match(note_text) Against('heavy -rope*' WITH QUERY EXPANSION) 
+FROM productnotes;
++  包含,词必须存在
+-  排除,词必须不出现
+>  包含,而且增加等级值
+<  包含,且减少等级值
+()  把词组成子表达式(允许这些子表达式作为一个组被包含、
+排除、排列等)
+~  取消一个词的排序值
+*  词尾的通配符
+"" 定义一个短语(与单个词的列表不一样,它匹配整个短语以
+   便包含或排除这个短语)
+
+WHERE Match(note_text) Against('rabbit bait' WITH QUERY EXPANSION)
+没有指定操作符,这个搜索匹配包含rabbit和bait中的至少一个词的行。
+WHERE Match(note_text) Against('"rabbit bait"' WITH QUERY EXPANSION)
+包含短语 rabbit bait
+WHERE Match(note_text) Against('>rabbit <bait' WITH QUERY EXPANSION)
+匹配rabbit和carrot ,增加前者的等级,降低后者的等级。
+WHERE Match(note_text) Against('+safe +(<combination)' WITH QUERY EXPANSION)
+这个搜索匹配词safe和combination,降低后者的等级。
+
+
+** 许多词出现的频率很高,搜索它们没有用处(返回太多的结果)。
+   因此,MySQL规定了一条50%规则,如果一个词出现在50%以上的行
+   中,则将它作为一个非用词忽略。 50%规则不用于IN BOOLEAN
+   MODE
+** 在索引全文本数据时,短词被忽略且从索引中排除。短词定义为
+   那些具有3个或3个以下字符的词(如果需要,这个数目可以更改)
+** 如果表中的行数少于3行,则全文本搜索不返回结果(因为每个词
+   或者不出现,或者至少出现在50%的行中)
+** 忽略词中的单引号。例如,don't索引为dont。
+
+

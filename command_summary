@@ -17,4 +17,11 @@ IN
 AS     不返回客户机
 
 INNER JOIN
+LEFT(RIGHT) OUTER JION 外部联结
 ON
+
+UNION 连接SELECT语句
+
+Match() Against()
+中Match()指定被搜索的列,Against() 指定要使用的搜索表达式
+WITH QUERY EXPANSION
