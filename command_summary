@@ -5,12 +5,16 @@ GROUP BY
 HAVING
 ORDER BY
 LIMIT
+LIKE 一般和通配连用 % _(单个字符)
+REGEXP 正则匹配
+BINARY 区分大小写 (中文)
+CONCAT() 连接字符串
 
 DISTINCT
 DESC
 ASC
 IN
-
+AS     不返回客户机
 
 INNER JOIN
 ON

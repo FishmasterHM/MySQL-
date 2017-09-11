@@ -38,9 +38,18 @@ SELECT vend_name, prod_name, prod_price, quantity
 FROM vendors INNER JOIN products INNER JOIN orderitems
  ON vendors.vend_id = products.vend_id 
       AND orderitems.prod_id = products.prod_id;
-*/
+
 
 SELECT cust_name, customers.cust_id, orderitems.prod_id
 FROM customers, orders, orderitems
 WHERE customers.cust_id = orders.cust_id
       AND orderitems.order_num = orders.order_num;
+*/
+
+#16 创建高级联结
+#外部联结
+SELECT c.cust_name, c.cust_id, COUNT(o.order_num) AS num_ord
+FROM customers AS c LEFT OUTER JOIN orders AS o
+  ON c.cust_id = o.cust_id
+GROUP BY c.cust_id;
+
