@@ -1,1 +1,8 @@
-aa
+查询(Query)一般情况下指SELECT, 查询语句可以嵌套
+
+相关子查询,当查询语句中列名有重复时(歧义),需要指明具体表
+SELECT cust_name, cust_state, (SELECT COUNT(*) 
+                               FROM orders
+			       WHERE orders.cust_id = customers.custid)
+FROM customers
+ORDER BY cust_name;
