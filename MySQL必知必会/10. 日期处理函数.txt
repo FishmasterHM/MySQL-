@@ -1,5 +1,5 @@
 标准日期格式: yyyy-mm-dd hh:mm:ss
-
+aaaa
 
 AddDate()      
 增加一个日期（天、周等）
