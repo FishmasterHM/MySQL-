@@ -1,0 +1,54 @@
+标准日期格式: yyyy-mm-dd hh:mm:ss
+
+AddDate()      
+增加一个日期（天、周等）
+
+AddTime()      
+增加一个时间（时、分等）
+
+CurDate()      
+返回当前日期
+
+CurTime()      
+返回当前时间
+
+Date()        
+返回日期时间的日期部分
+
+DateDiff()     
+计算两个日期之差
+
+Date_Add(Date, INTERVAL Expr Type)     
+高度灵活的日期运算函数
+Type 可为 SECOND, MINUTE 等等
+Expr 数值
+                        
+Date_Format()  
+返回一个格式化的日期或时间串
+
+Day()          
+返回一个日期的天数部分
+
+DayOfWeek()    
+对于一个日期，返回对应的星期几
+
+Hour()         
+返回一个时间的小时部分
+
+Minute()       
+返回一个时间的分钟部分
+
+Month()        
+返回一个日期的月份部分
+
+Now()          
+返回当前日期和时间
+
+Second()       
+返回一个时间的秒部分
+
+Time()         
+返回一个日期时间的时间部分
+
+Year()         
+返回一个日期的年份部分
