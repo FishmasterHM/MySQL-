@@ -1,4 +1,4 @@
-SELECT
+﻿SELECT
 FROM
 WHERE
 GROUP BY
@@ -48,3 +48,17 @@ REFERENCES name ()
 
 RENAME TABLE a TO b 重命名表
 DROP TABLE a        删除表
+
+CREATE VIEW 创建视图
+CREATE OR REPLACE VIEW 
+如果视图存在就REPLACE该视图,如果不存在 就Create 该视图
+ALTER VIEW v3 AS
+SELECT * FROM t_book; 修改视图
+
+
+SHOW TABLE STATUS LIKE 'v5'; 查看视图基本信息
+SHOW CREATE VIEW             查看视图详细信息
+
+Mysql>USE information_schema;
+Mysql>SELECT * FROM views;
+所有已经创建的视图的信息

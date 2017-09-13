@@ -1,0 +1,45 @@
+﻿#22使用视图 （VIEW）
+目的：重用SQL语句
+      使用部分数据而不是整个表
+      保护数据
+
+规则和限制：
+*必须唯一命名(与其他视图和表相同)
+*数目没有限制
+*视图之间可以相互嵌套
+*ORDER BY可以用在视图中，但如果从该视图检索数据SELECT中也
+ 含有ORDER BY，那么该视图中的ORDER BY将被覆盖。
+*视图不能索引，也不能有关联的触发器或默认值。
+
+CREATE VIEW productcustomers(name, contact, id) AS
+SELECT cust_name, cust_contact, prod_id
+FROM customers, orders, orderitems
+WHERE customers,cust_id = orders_cust_id
+  AND orderitems.order_num = orders.order_num
+
+()可重新命名
+CREATE OR REPLACE VIEW 
+如果视图存在就REPLACE该视图,如果不存在 就Create 该视图
+ALTER VIEW v3 AS
+SELECT * FROM t_book; 修改视图
+
+Mysql>USE information_schema;
+Mysql>SELECT * FROM views;
+所有已经创建的视图的信息
+
+
+
+存在方式：
+临时存在于 服务器内存中
+视图 无存在形式
+
+生命周期：
+临时表 Sql服务关闭就消失
+视图 你不删它就不会消失
+
+用途:
+临时表 经常作为 中间转接层
+视图 作为物理表的窗口
+
+**********************
+修改视图就会修改基数据，因为视图本身不包含数据
