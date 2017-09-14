@@ -58,7 +58,31 @@ SELECT * FROM t_book; 修改视图
 
 SHOW TABLE STATUS LIKE 'v5'; 查看视图基本信息
 SHOW CREATE VIEW             查看视图详细信息
+SHOW FULL TABLES;            包含table是否是view的信息
 
 Mysql>USE information_schema;
 Mysql>SELECT * FROM views;
 所有已经创建的视图的信息
+
+DROP VIEW [name]; 删除
+
+
+
+
+****储存过程
+DELIMITER //
+CREATE PROCEDURE name(
+  IN/OUT [name] Format,
+  IN/OUT [name] Format,
+)
+BEGIN
+  SELECT ...
+  INTO [name]
+  FROM ...;
+END//   
+DELIMITER ;
+
+COMMENT 'Obtain order total, optionally adding tax'
+可在 SHOW PROCEDURE STATUS LIKE 'name' 里查看
+DROP PROCEDURE [name];
+

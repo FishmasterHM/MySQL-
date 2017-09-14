@@ -1,0 +1,31 @@
+# 储存过程 (有点像function或者subroutine)
+
+先改变句尾分隔符
+DELIMITER //
+
+CREATE PROCEDURE productpricing(
+  OUT pL DECIMAL(8,2),
+  OUT pH DECIMAL(8,2),   
+  OUT pA DECIMAL(8,2),
+)
+BEGIN
+  SELECT Min(prod_price)
+  INTO pl
+  FROM products;
+  SELECT Max(prod_price)
+  INTO ph
+  FROM products;
+  SELECT Avg(prod_price)
+  INTO pa
+  FROM products;
+END//
+
+DELIMITER ;
+
+使用 CALL name(20005, @total);
+
+复杂的储存过程:
+详见script.sql => 22.1
+
+SHOW PROCEDURE STATUS 列表显示所有PROCEDURE
+SHOW CREATE PROCEDURE [name]; 查看某储存过程详细信息
