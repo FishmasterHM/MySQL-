@@ -1,0 +1,56 @@
+#游标(cursor)
+MySQL 只能使用于储存过程(PROCEDURE)
+
+* 在能够使用游标前,必须声明(定义)它。这个过程实际上没有
+  检索数据,它只是定义要使用的SELECT语句。
+* 一旦声明后,必须打开游标以供使用。这个过程用前面定义的
+  SELECT语句把数据实际检索出来。
+* 对于填有数据的游标,根据需要取出(检索)各行。
+* 在结束游标使用时,必须关闭游标。
+
+创建游标使用DECLARE语句=>并定义相对于的SELECT语句
+CREATE PROCEDURE processorders()
+BEGIN
+  DECLARE ordernumbers CURSOR
+  FOR
+  SELECT order_num FROM orders;
+
+  OPEN ordernumber;
+  CLOSE ordernumber;
+END//
+
+释放游标: DEALLOCATE text_Cursor
+定义游标:
+===> global 或者 local
+
+DECLARE test_Cursor CURSOR GLOBAL FOR 全球
+DECLARE test_Cursor CURSOR GLOBAL FOR 局部
+SELECT * FROM dbo.tb1
+
+====> FORWARD_ONLY 和 SCROLL
+                 默认情况: FORWARD_ONLY 
+DECLARE test_Cursor CURSOR SCROLL FOR
+SCROLL状态下 可以使用
+FETCH
+NEXT 下一行, PRIOR 上一行, FIRST, LAST, ABSOLUTE [n], RELATIVE [n]
+FROM [cursorname] INTO @
+
+@@FETCH_STATUS
+0	The FETCH statement was successful.
+-1	The FETCH statement failed or the row was beyond the result set.
+-2	The row fetched is missing.
+-9	The cursor is not performing a fetch operation.
+
+
+DECLARE Employee_Cursor CURSOR FOR  
+SELECT BusinessEntityID, JobTitle  
+FROM AdventureWorks2012.HumanResources.Employee;  
+OPEN Employee_Cursor;  
+FETCH NEXT FROM Employee_Cursor;  
+WHILE @@FETCH_STATUS = 0  
+   BEGIN  
+      FETCH NEXT FROM Employee_Cursor;  
+   END;  
+CLOSE Employee_Cursor;  
+DEALLOCATE Employee_Cursor;  
+GO  

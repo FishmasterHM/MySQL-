@@ -1,0 +1,62 @@
+WHILE  -- BREAK --CONTINUE
+
+declare @i int
+set @i=1
+while @i<30
+begin
+insert into test (userid) values(@i)
+set @i=@i+1
+end
+
+
+while 条件
+begin
+执行操作
+set @i=@i+1
+end
+---------------------------------
+
+##repeat实例
+##REPEAT ... END REPEAT
+##drop PROCEDURE p_repeat;
+
+DELIMITER//
+CREATE PROCEDURE p_repeat ()
+BEGIN
+DECLARE v INT;
+SET v = 0;
+REPEAT
+INSERT INTO userInfo VALUES(NULL,'王五','123456');
+SET v = v + 1;
+UNTIL v >= 5
+END REPEAT;
+END; //
+
+-------------------------------------
+LOOP 实例
+
+DELIMITER //
+ DROP PROCEDURE IF EXISTS LOOPLoopProc//
+ CREATE PROCEDURE LOOPLoopProc()
+       BEGIN
+               DECLARE x  INT;
+               DECLARE str  VARCHAR(255);
+               SET x = 1;
+               SET str =  '';
+               loop_label:  LOOP
+                           IF  x > 10 THEN
+                               LEAVE  loop_label;
+                           END  IF;
+                           SET  x = x + 1;
+                           IF  (x mod 2) THEN
+                               ITERATE  loop_label;
+                           ELSE
+                               SET  str = CONCAT(str,x,',');
+                           END  IF;
+
+               END LOOP;    
+               SELECT str;
+       END//
+ DELIMITER ;
+
+在上面存储过程中我们首先在LOOP语句开始前声明了一个loop_label，然后在if语句总判断变量x是否大于10，如果大于10会使用LEAVE语句退出循环，而如果x是奇数时则会回到循环开始继续执行，这有点像continue语句，否则对str执行concat操作，并进入下一次循环。

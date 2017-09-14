@@ -86,3 +86,14 @@ COMMENT 'Obtain order total, optionally adding tax'
 可在 SHOW PROCEDURE STATUS LIKE 'name' 里查看
 DROP PROCEDURE [name];
 
+GO 单独执行以上语句
+
+游标:
+DECLARE cur CURSOR for
+SELECT...;
+DECLARE @a DECIMAL(8,2)
+
+FETCH NEXT FROM cur
+INTO @a;
+
+CALL some procedure(@a)..
