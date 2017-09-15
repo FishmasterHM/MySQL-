@@ -1,0 +1,22 @@
+DELIMITER //
+
+CREATE FUNCTION SimpleCompare(n INT, m INT)
+  RETURNS VARCHAR(20)
+
+  BEGIN
+    DECLARE s VARCHAR(20);
+
+    IF n > m THEN SET s = '>';
+    ELSEIF n = m THEN SET s = '=';
+    ELSE SET s = '<';
+    END IF;
+
+    SET s = CONCAT(n, ' ', s, ' ', m);
+
+    RETURN s;
+  END //
+
+DELIMITER ;
+
+格式：IF(Condition,A,B)
+意义：当Condition为TRUE时，返回A；当Condition为FALSE时，返回B。

@@ -101,3 +101,15 @@ CALL some procedure(@a)..
 
 START TRANSACTION;
 ROLLBACK;           退回
+COMMIT;             提交
+
+SHOW PROCESSLIST   显示所有活动进程
+
+
+格式：IF(Condition,A,B)
+意义：当Condition为TRUE时，返回A；当Condition为FALSE时，返回B。
+
+IF () THEN
+...;
+ELSEIF THEN
+END IF

@@ -1,0 +1,14 @@
+27.1 字符集和校对顺序
+字符集为字母和符号的集合
+编码位某个字符集成员的额内部表示
+校对位规定字符如何比较的指令
+
+SHOW CHARACTER SET; 查看所有字符集
+SHOW COLLATION;     查看所有校对,以及它们适用的字符集
+
+对表设置指定字符集和校对
+CREATE TABLE mytable(
+   column1 INT,
+   column2 VARCHAR(10)
+) DEFALUT CHARACTER SET hebrew
+  COLLATE hebrew_general_ci;
