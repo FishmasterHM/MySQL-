@@ -1,0 +1,10 @@
+USE mysql;
+SELECT user FROM user;
+查看所有用户
+
+CREATE USER ben IDENTIFIED BY 'password';
+
+如果不指定主机名,则使用默认的主机名%: 比如hank%
+
+SET PASSWORD = Password('aavvss') 更改自己口令
+SET PASSWORD FOR ... = Password() 更改别人口令(有权限)

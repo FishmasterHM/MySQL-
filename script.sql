@@ -18,6 +18,8 @@ WHERE customers.cust_id = orders.cust_id
 
 
 #22.1
+/*
+
 -- Name: ordertotal
 -- PARAMETERS: onumber = order number
 --             taxable = 0 not taxable, 1
@@ -46,3 +48,23 @@ BEGIN
 END//
 
 DELIMITER ;
+*/
+
+/*
+CREATE TRIGGER showaddress 
+AFTER INSERT ON vendors
+FOR EACH ROW
+BODY; 
+*/
+
+SET autocommit = 0;
+SELECT * FROM text01;
+START TRANSACTION;
+DELETE FROM text01
+WHERE number = 3;
+SELECT * FROM text01;
+DELETE FROM text01
+WHERE numbr = 2;
+SELECT * FROM text01;
+#ROLLBACK;
+SELECT * FROM text01;

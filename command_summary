@@ -97,3 +97,7 @@ FETCH NEXT FROM cur
 INTO @a;
 
 CALL some procedure(@a)..
+
+
+START TRANSACTION;
+ROLLBACK;           退回

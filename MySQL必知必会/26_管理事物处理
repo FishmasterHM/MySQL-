@@ -1,0 +1,42 @@
+#事物处理(transaction processing)
+
+用来维护数据库的完整性,它保证成批的MySQL操作要么完全执行,要么完全不执行。
+用来管理必须成批执行的MySQL操作,以保证数据库不包含不完整的操作结果。利用
+事务处理,可以保证一组操作不会中途停止,它们或者作为整体执行,或者完全不执
+行(除非明确指示) 。如果没有错误发生,整组语句提交给(写到)数据库表。如果发
+有错误,则进行回退(撤销)以恢复数据库到某个已知且安全的状态。
+
+
+* 事务(transaction)指一组SQL语句;
+* 回退(rollback)指撤销指定SQL语句的过程;
+* 提交(commit)指将未存储的SQL语句结果写入数据库表;
+* 保留点( savepoint )指事务处理中设置的临时占位符(place-holder)
+  你可以对它发布回退(与回退整个事务处理不同)
+ 
+ROLLBACK管理INSERT UPDATE DELETE,对SELECT语句没有意义
+CREATE DROP 可以在事物管理里执行,但是如果执行退回不会被撤销
+
+SELECT * FROM text01;
+START TRANSACTION; (或者BEGIN;)
+DELETE FROM text01
+WHERE number = 3;
+SELECT * FROM text01;
+ROLLBACK;
+SELECT * FROM text01;
+
+保留点:
+SAVEPOINT delete1;
+ROLLBACK TO delete1;
+释放保留点
+保留点在事务处理完成(执行一条 ROLLBACK或
+COMMIT)后自动释放。自MySQL 5以来,也可以用 RELEASE
+SAVEPOINT明确地释放保留点。
+
+SET autocommit = 0, 不自动提交,直到手动commit或者rollback
+(意味着过程中不会
+
+
+关于autocommit = 0 和 START TRANSACTION的不同:
+https://stackoverflow.com/questions/2950676/difference-between-set-autocommit-1-and-start-transaction-in-mysql-have-i-misse
+基本上的意思是,不建议用 SET AUTOCOMMIT = 0; 
+START TRANSACTION更为正规

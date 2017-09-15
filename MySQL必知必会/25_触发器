@@ -1,0 +1,63 @@
+#触发器(TRIGGER)
+
+* 想要某条语句(或某些语句)在事件发生时自动执行
+* 每当订购一个产品时,都从库存数量中减去订购的数量
+
+触发器相应下列语句:
+DELETE, INSERT, UPDATE
+
+25.2 创建触发器
+* 唯一触发器名(每个表中唯一,最好使用时在数据库范围内唯一)
+* 触发器关联的表
+* 触发器应该响应的活动
+* 触发器如何执行
+* 视图/临时表不支持触发器
+* 每个表最多支持6个触发器,在DELETE, INSERT, UPDATE前后
+
+CREATE TRIGGER newproduct 
+AFTER INSERT ON products FOR EACH ROW
+UPDATE [table] SET total = total+1;
+
+DROP TIGGER newproduct; 删除
+
+BEFORE 或 AFTER?
+ 通常,将BEFORE用于数据验证和净化(目
+的是保证插入表中的数据确实是需要的数据)
+ 
+25.4.1 INSERT
+* 在INSERT触发器代码内,可引用一个名为NEW的虚拟表,访问被
+  插入的行效
+* 在BEFORE INSERT触发器中,NEW中的值也可以被更新(允许更改
+  被插入的值)
+* 对于AUTO_INCREMENT列, NEW在INSERT执行之前包含0,在INSERT
+  执行之后包含新的自动生成值。
+
+25.4.2 DELETE
+* OLD在触发器类型为DELETE事件类型时才有, 且全局只读
+
+DELIMITER //
+CREATE TRIGGER deleteorder BEFORE DELETE ON orders
+FOR EACH ROW
+BEGIN
+   INSERT INTO archive_orders(order_num, order_date, cust_id)
+   VALUE(OLD.order_num, OLD.order_date, OLD.cust_id);
+END//
+DELIMITER ;
+
+25.4.3 UPDATE
+* 在UPDATE触发器代码中,你可以引用一个名为 OLD的虚拟表访问
+  以前(UPDATE语句前)的值,引用一个名为NEW 的虚拟表访问新
+  更新的值
+净化数据
+CREATE TRIGGER updatevendor BEFORE UPDATE ON vendors
+FOR EACH ROW SET NEW.vend_state = Upper(NEW.vend_state)
+
+#关于 OLD & NEW
+* 在 INSERT 型触发器中，NEW 用来表示将要（BEFORE）或已经（AFTER）插入的新数据；
+* 在 UPDATE 型触发器中，OLD 用来表示将要或已经被修改的原数据，NEW 用来表示将要或已   经修改为的新数据；
+* 在 DELETE 型触发器中，OLD 用来表示将要或已经被删除的原数据；
+
+PS: LOAD DATA 和 REPLACE 语句也能引起触发器的触发。
+    LOAD DATA 语句用于将一个文件装入到一个数据表中，相当与一系列的 INSERT 操作。
+
+    REPLACE 语句一般来说和 INSERT 语句很像，只是在表中有 primary key 或 unique 索     引时，如果插入的数据和原来 primary key 或 unique 索引一致时，会先删除原来的数据    ，然后增加一条新数据
