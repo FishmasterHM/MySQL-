@@ -52,5 +52,47 @@ WHERE degree between 70 and 90;
 SELECT s_name, c_no, degree
 FROM student AS st INNER JOIN score AS sc
   ON st.s_no = sc.s_no;
-#
+#查询所有学生的Sname、Cname和Degree列
+SELECT s_name, c_name, degree
+FROM student AS st INNER JOIN score AS sc
+	     ON st.s_no = sc.s_no
+     INNER JOIN course AS co
+         ON co.c_no = sc.c_no;
+#查询“95033”班学生的平均分
+SELECT Avg(degree) AS avg_95033
+FROM score INNER JOIN student
+    ON score.s_no = student.s_no
+WHERE class = 95033;
+/*假设使用如下命令建立了一个grade表：
+create table grade(low  int(3),upp  int(3),rank  char(1))
+insert into grade values(90,100,’A’)
+insert into grade values(80,89,’B’)
+insert into grade values(70,79,’C’)
+insert into grade values(60,69,’D’)
+insert into grade values(0,59,’E’)
+现查询所有同学的Sno、Cno和rank列。*/
+SELECT s_no, c_no, degree, rank
+FROM score INNER JOIN grade
+    ON degree BETWEEN low AND upp;
+#查询选修“3-105”课程的成绩高于“109”号同学成绩的所有同学的记录。
+SELECT * FROM score
+WHERE c_no = '3-105' AND 
+	  (degree > (SELECT degree from score 
+				 WHERE s_no = 109 AND c_no = '3-105'));
+#选了多门课程并且是这个课程下不是最高分的
+SELECT * 
+FROM score AS a
+INNER JOIN (SELECT s_no, c_no, max(degree) AS maxa
+            FROM score
+            GROUP BY c_no) AS filter_max
+            ON a.c_no = filter_max.c_no 
+WHERE a.degree < filter_max.maxa;
+
+SELECT * 
+FROM score AS a
+WHERE s_no IN (SELECT s_no FROM score
+			   GROUP BY s_no
+               HAVING Count(*) > 2)
+	AND 
+	  degree < (SELECT Max(degree) FROM score AS b WHERE b.c_no = a. c_no);
    
