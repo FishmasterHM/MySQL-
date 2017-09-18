@@ -80,13 +80,17 @@ WHERE c_no = '3-105' AND
 	  (degree > (SELECT degree from score 
 				 WHERE s_no = 109 AND c_no = '3-105'));
 #选了多门课程并且是这个课程下不是最高分的
-SELECT * 
+SELECT a.* 
 FROM score AS a
 INNER JOIN (SELECT s_no, c_no, max(degree) AS maxa
             FROM score
             GROUP BY c_no) AS filter_max
             ON a.c_no = filter_max.c_no 
-WHERE a.degree < filter_max.maxa;
+WHERE a.degree < filter_max.maxa AND 
+      a.s_no IN (SELECT s_no FROM score AS b
+				 GROUP BY s_no
+                 HAVING Count(*) > 3);
+                 
 
 SELECT * 
 FROM score AS a
@@ -95,4 +99,45 @@ WHERE s_no IN (SELECT s_no FROM score
                HAVING Count(*) > 2)
 	AND 
 	  degree < (SELECT Max(degree) FROM score AS b WHERE b.c_no = a. c_no);
-   
+#查询成绩高于学号为“109”、课程号为“3-105”的成绩的所有记录。
+SELECT *
+FROM score
+WHERE c_no = '3-105'
+	  AND degree > (SELECT degree
+                    FROM score
+                    WHERE s_no = 109 
+                          AND c_no = '3-105');
+SELECT * FROM score
+WHERE c_no = '3-105';
+#查询和学号为108、101的同学同年出生的所有学生的Sno、Sname和Sbirthday列。
+SELECT s_no, s_name, s_birthday FROM student 
+WHERE Year(s_birthday) IN (SELECT Year(s_birthday) 
+                           FROM student
+                           WHERE s_no IN (101, 108));
+#查询“张旭“教师任课的学生成绩
+SELECT s_no, degree 
+FROM score AS sc, course AS co, teacher AS te
+WHERE co.c_no = sc.c_no
+      AND te.t_no = co.t_no
+      AND t_name = '张旭';
+#查询选修某课程的同学人数多于4人的教师姓名
+SELECT DISTINCT t_name 
+FROM teacher as te, score AS sc, course AS co
+WHERE co.c_no = sc.c_no
+      AND te.t_no = co.t_no
+      AND co.c_no IN (SELECT c_no 
+                      FROM score
+                      Group BY c_no 
+                      HAVING Count(*) > 3 );
+#查询出“计算机系“教师所教课程的成绩表
+SELECT * 
+FROM score AS sc, course AS co, teacher AS te
+WHERE co.c_no = sc.c_no
+      AND te.t_no = co.t_no
+      AND depart = '计算机系';
+#查询选修编号为“3-105“课程且成绩至少高于选修编号为“3-245”的同学的Cno、Sno和Degree,并按Degree从高到低次序排序。
+SELECT * FROM score
+WHERE c_no = '3-105'
+      AND degree > any(SELECT degree FROM score 
+					   WHERE c_no = '3-245')
+ORDER BY degree DESC;
