@@ -141,3 +141,31 @@ WHERE c_no = '3-105'
       AND degree > any(SELECT degree FROM score 
 					   WHERE c_no = '3-245')
 ORDER BY degree DESC;
+#30、查询选修编号为“3-105”且成绩高于选修编号为“3-245”课程的同学的Cno、Sno和Degree.
+SELECT a.* 
+FROM score AS a, score AS b
+WHERE a.s_no = b.s_no 
+  AND a.c_no = '3-105'
+  AND b.c_no = '3-245'
+  AND a.degree > b.degree;
+# 查询所有教师和同学的name、sex和birthday.
+SELECT s_name, s_sex, s_birthday
+FROM student
+UNION ALL
+SELECT t_name, t_sex, t_birthday
+FROM teacher;
+#查询所有“女”教师和“女”同学的name、sex和birthday.
+SELECT s_name, s_sex, s_birthday
+FROM student
+WHERE s_sex = '女'
+UNION ALL
+SELECT t_name, t_sex, t_birthday
+FROM teacher
+WHERE t_sex = '女';
+# 查询成绩比该课程平均成绩低的同学的成绩表。
+SELECT a.* 
+FROM score AS a INNER JOIN (SELECT c_no, Avg(degree) AS average
+                            FROM score 
+                            GROUP BY c_no) AS b
+WHERE a.c_no = b.c_no
+  AND a.degree < b.average ;
