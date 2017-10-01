@@ -169,3 +169,29 @@ FROM score AS a INNER JOIN (SELECT c_no, Avg(degree) AS average
                             GROUP BY c_no) AS b
 WHERE a.c_no = b.c_no
   AND a.degree < b.average ;
+#查询至少有2名男生的班号
+SELECT class
+FROM student
+GROUP BY class
+HAVING Count(s_sex) > 2;
+#查询Student表中不姓“王”的同学记录。
+SELECT * FROM student
+WHERE s_name NOT LIKE "王%";
+#查询Student表中每个学生的姓名和年龄。
+SELECT s_name, year(now()) - year(s_birthday) AS age
+FROM student;
+#查询Student表中最大和最小的Sbirthday日期值。
+SELECT max(s_birthday), min(s_birthday) from student;
+#以班号和年龄从大到小的顺序查询Student表中的全部记录
+select * from student
+ORDER BY class desc, s_birthday ASC;
+#查询“男”教师及其所上的课程。
+SELECT t_name, c_name
+FROM course, teacher
+WHERE course.t_no = teacher. t_no
+  AND t_sex = '男';
+#查询最高分同学的Sno、Cno和Degree列
+SELECT s_no, c_no, degree 
+FROM score
+WHERE degree = (SELECT Max(degree)
+				from score);
